@@ -25,44 +25,50 @@
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/recycle_image_height"
                 android:background="@color/photo_placeholder"
                 android:scaleType="centerCrop"
                 />
 
 
+            <LinearLayout
+                android:id="@+id/title_conainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/article_title"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="4"
+                    android:padding="8dp"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/primary_dark" />
+
+                <TextView
+                    android:id="@+id/article_subtitle"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:padding="8dp"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/ltgray" />
+
+            </LinearLayout>
+
+
         </FrameLayout>
 
-        <LinearLayout
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff">
 
-            <TextView
-                android:id="@+id/article_title"
-                style="@style/TextAppearance.AppCompat.Headline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="4"
-                android:padding="8dp"
-                android:textColor="@color/primary_dark" />
-
-            <TextView
-                android:id="@+id/article_subtitle"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:textColor="@color/primary"
-                android:maxLines="2"
-                android:ellipsize="end" />
-
-        </LinearLayout>
 
 
     </LinearLayout>

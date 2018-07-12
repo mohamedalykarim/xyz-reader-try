@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -17,27 +15,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ShareCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.squareup.picasso.Callback;
@@ -53,7 +44,6 @@ public class ArticleDetailFragment extends Fragment implements
     private static final String TAG = "ArticleDetailFragment";
 
     public static final String ARG_ITEM_ID = "item_id";
-    private static final float PARALLAX_FACTOR = 1.25f;
 
     private Cursor mCursor;
     private long mItemId;
@@ -72,6 +62,8 @@ public class ArticleDetailFragment extends Fragment implements
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
+
+    boolean isExpanded = false;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -171,8 +163,10 @@ public class ArticleDetailFragment extends Fragment implements
         bylineView.setMovementMethod(new LinkMovementMethod());
         final TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
 
-
-        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
+        Typeface typeface = Typeface.createFromAsset(getResources().getAssets(), "Champagne&LimousinesBold.ttf");
+        bodyView.setTypeface(typeface);
+        titleView.setTypeface(typeface);
+        bylineView.setTypeface(typeface);
 
         if (mCursor != null) {
             mRootView.setAlpha(0);
@@ -199,6 +193,20 @@ public class ArticleDetailFragment extends Fragment implements
 
             }
             bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
+            bodyView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isExpanded){
+                        bodyView.setMaxLines(getResources().getInteger(R.integer.details_body_lines));
+                        bodyView.setEllipsize(TextUtils.TruncateAt.END);
+                        isExpanded = false;
+                    }else {
+                        bodyView.setMaxLines(Integer.MAX_VALUE);
+                        bodyView.setEllipsize(null);
+                        isExpanded = true;
+                    }
+                }
+            });
             Picasso.get().load(mCursor.getString(ArticleLoader.Query.PHOTO_URL)).into(mPhotoView, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -276,7 +284,6 @@ public class ArticleDetailFragment extends Fragment implements
         }else{
             bindViews();
         }
-
 
     }
 

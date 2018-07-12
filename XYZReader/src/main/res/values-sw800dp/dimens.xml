@@ -1,0 +1,10 @@
+<resources>
+    <!-- detail -->
+    <dimen name="content_text_margin">144dp</dimen>
+    <dimen name="title_margin">144dp</dimen>
+
+
+
+
+
+</resources>

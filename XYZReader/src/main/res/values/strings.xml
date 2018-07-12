@@ -11,6 +11,7 @@
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="image">Image</string>
 
 
 </resources>

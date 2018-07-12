@@ -8,8 +8,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
@@ -18,12 +25,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
 import com.example.xyzreader.data.UpdaterService;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -49,6 +58,10 @@ public class ArticleListActivity extends AppCompatActivity implements
     // Most time functions can only handle 1902 - 2037
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
 
+    Typeface typeface;
+    private int mMutedColor = 0xFF333333;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +74,9 @@ public class ArticleListActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             refresh();
         }
+
+        typeface = Typeface.createFromAsset(getResources().getAssets(), "Champagne&LimousinesBold.ttf");
+
     }
 
     private void refresh() {
@@ -103,11 +119,14 @@ public class ArticleListActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Adapter adapter = new Adapter(data);
         adapter.setHasStableIds(true);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
-        int columnCount = getResources().getInteger(R.integer.list_column_count);
-        StaggeredGridLayoutManager sglm =
-                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        int columnCount = this.getResources().getInteger(R.integer.list_column_count);
+
+        GridLayoutManager sglm =
+                new GridLayoutManager(this, columnCount);
         mRecyclerView.setLayoutManager(sglm);
+        mRecyclerView.setHasFixedSize(true);
 
     }
 
@@ -162,11 +181,14 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             Date publishedDate = parsePublishedDate();
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
+
+                holder.titleView.setTypeface(typeface);
+                holder.subtitleView.setTypeface(typeface);
 
                 holder.subtitleView.setText(Html.fromHtml(
                         DateUtils.getRelativeTimeSpanString(
@@ -181,7 +203,28 @@ public class ArticleListActivity extends AppCompatActivity implements
                         + "<br/>" + " by "
                         + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             }
-            Picasso.get().load(mCursor.getString(ArticleLoader.Query.THUMB_URL)).into(holder.thumbnailView);
+            Picasso.get().load(mCursor.getString(ArticleLoader.Query.THUMB_URL)).into(holder.thumbnailView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    Bitmap bitmap = ((BitmapDrawable)holder.thumbnailView.getDrawable()).getBitmap();
+                    Palette.generateAsync(bitmap,12, new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            holder.titleContainer.setBackgroundColor(palette.getDarkMutedColor(0xFF333333));
+                            holder.titleView.setTextColor(palette.getLightMutedColor(0xFF333333));
+                        }
+                    });
+
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+
+
         }
 
         @Override
@@ -194,12 +237,16 @@ public class ArticleListActivity extends AppCompatActivity implements
         public ImageView thumbnailView;
         public TextView titleView;
         public TextView subtitleView;
+        public LinearLayout titleContainer;
 
         public ViewHolder(View view) {
             super(view);
             thumbnailView = view.findViewById(R.id.thumbnail);
             titleView = (TextView) view.findViewById(R.id.article_title);
             subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
+            titleContainer = view.findViewById(R.id.title_conainer);
         }
     }
+
+
 }

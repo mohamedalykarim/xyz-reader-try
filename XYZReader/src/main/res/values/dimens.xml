@@ -9,5 +9,8 @@
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="appbar_elevation">4dp</dimen>
     <dimen name="cardview_elevation">4dp</dimen>
+    <dimen name="content_text_margin">8dp</dimen>
+    <dimen name="title_margin">0dp</dimen>
+    <dimen name="recycle_image_height">0dp</dimen>
 
 </resources>

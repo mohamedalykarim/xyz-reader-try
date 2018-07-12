@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="list_column_count">2</integer>
-    <integer name="details_body_lines">40</integer>
-
+    <integer name="details_body_lines">50</integer>
 
 
 </resources>
