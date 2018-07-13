@@ -54,8 +54,6 @@ public class ArticleDetailFragment extends Fragment implements
 
     private ImageView mPhotoView;
     private int mScrollY;
-    private boolean mIsCard = false;
-    private int mStatusBarFullOpacityBottom;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
@@ -88,10 +86,7 @@ public class ArticleDetailFragment extends Fragment implements
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
 
-        mIsCard = getResources().getBoolean(R.bool.detail_is_card);
-        mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
-                R.dimen.detail_card_top_margin);
-        setHasOptionsMenu(true);
+         setHasOptionsMenu(true);
     }
 
     public ArticleDetailActivity getActivityCast() {

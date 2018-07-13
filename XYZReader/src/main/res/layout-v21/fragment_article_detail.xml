@@ -118,21 +118,20 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/article_body"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/content_text_margin"
                 android:layout_marginLeft="@dimen/content_text_margin"
@@ -140,12 +139,14 @@
                 android:layout_marginStart="@dimen/content_text_margin"
                 android:ellipsize="end"
                 android:maxLines="@integer/details_body_lines"
+                android:layout_gravity="fill"
                 android:padding="10dp"
                 android:textColor="@color/primary"
                 android:textColorLink="@color/accent"
                 android:textSize="20sp"
-
-                />
+                android:background="@color/white"
+                android:elevation="6dp"
+                android:layout_weight="1"/>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

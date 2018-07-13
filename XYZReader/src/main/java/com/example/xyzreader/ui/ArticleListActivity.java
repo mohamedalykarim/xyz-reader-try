@@ -14,6 +14,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
@@ -127,6 +128,12 @@ public class ArticleListActivity extends AppCompatActivity implements
                 new GridLayoutManager(this, columnCount);
         mRecyclerView.setLayoutManager(sglm);
         mRecyclerView.setHasFixedSize(true);
+
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.list_coordinator),
+                "Loading completed",
+                Snackbar.LENGTH_SHORT);
+        snackbar.show();
+
 
     }
 
