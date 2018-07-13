@@ -127,7 +127,7 @@ public class ArticleDetailFragment extends Fragment implements
             }
         });
 
-        bindViews();
+
 
 
 

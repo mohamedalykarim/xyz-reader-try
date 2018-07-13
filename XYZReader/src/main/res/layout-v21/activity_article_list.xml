@@ -16,6 +16,7 @@
         android:paddingLeft="@dimen/list_side_margin"
         android:paddingRight="@dimen/list_side_margin"
         app:spanCount="@integer/list_column_count"
+        android:transitionGroup="false"
         android:scrollbarStyle="outsideOverlay"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
