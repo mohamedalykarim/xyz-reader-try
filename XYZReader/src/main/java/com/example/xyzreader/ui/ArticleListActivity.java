@@ -72,7 +72,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_article_list);
         Toolbar toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(null);
+        getSupportActionBar().setTitle(null);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
